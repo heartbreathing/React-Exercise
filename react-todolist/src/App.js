@@ -13,15 +13,28 @@ function App () {
   const addTask = () => {
     const task = {
       id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
-      taskName: newTask
+      taskName: newTask,
+      isCompleted: false
     };
     setTodoList([...todoList, task]);
   };
 
+  const completeTask = (id) => {
+    setTodoList(todoList.map(task => {
+      if (task.id === id) {
+        // return { ...task, isCompleted: true }; 
+        const updatedTask = { ...task, isCompleted: true };
+        console.log(updatedTask); // Check if isCompleted is set to true
+        return updatedTask;
+      }
+      return task; 
+    }));
+  };
+
 
   const deleteTask = (id) => {
-    setTodoList(todoList.filter((task) => 
-      task.id !== id      
+    setTodoList(todoList.filter((task) =>
+      task.id !== id
     ));
   };
 
@@ -37,7 +50,8 @@ function App () {
           return <Task
             taskName={task.taskName}
             id={task.id}
-            deleteTask={deleteTask}
+            isCompleted={task.isCompleted}deleteTask={deleteTask}            
+            completeTask={completeTask}
             key={task.id}
           />;
 
